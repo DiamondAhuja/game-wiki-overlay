@@ -7,14 +7,26 @@
 </head>
 <body>
   <div id="overlay">
-    <h1>Game Wiki Overlay</h1>
-    <p>Press Ctrl + Shift + W to toggle</p>
-    <input type="text" placeholder="Search wiki..." />
+    <h1>🎮 Game Wiki Overlay</h1>
+    <p>Ctrl+Shift+W to toggle | Ctrl+Shift+C for click-through</p>
+    
+    <div class="wiki-selector">
+      <select id="wikiSelect">
+        <option value="minecraft">⛏️ Minecraft</option>
+        <option value="terraria">🗡️ Terraria</option>
+        <option value="stardew">🌾 Stardew Valley</option>
+        <option value="zelda">🗡️ Zelda</option>
+        <option value="eldenring">💍 Elden Ring</option>
+        <option value="darksouls">🔥 Dark Souls</option>
+      </select>
+    </div>
+    
+    <input type="text" id="searchInput" placeholder="Search wiki..." autofocus />
     <div id="content">
-      <p>Overlay is running.</p>
+      <p>Select a game and type something to search!</p>
     </div>
   </div>
 
-  <script src="index.js"></script>
+  <script type="module" src="index.js"></script>
 </body>
 </html>
