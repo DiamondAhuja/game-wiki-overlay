@@ -174,3 +174,12 @@ document.addEventListener('mouseleave', () => {
     window.electronAPI.stopResize();
   }
 });
+
+// Opacity slider
+const opacitySlider = document.getElementById('opacity-slider');
+opacitySlider.addEventListener('input', (e) => {
+  const opacity = parseInt(e.target.value) / 100;
+  if (window.electronAPI) {
+    window.electronAPI.setOpacity(opacity);
+  }
+});

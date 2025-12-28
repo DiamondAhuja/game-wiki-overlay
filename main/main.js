@@ -71,6 +71,14 @@ ipcMain.on('stop-resize', () => {
   }
 });
 
+// Handle opacity change
+ipcMain.on('set-opacity', (event, opacity) => {
+  const win = getMainWindow();
+  if (win) {
+    win.setOpacity(opacity);
+  }
+});
+
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();

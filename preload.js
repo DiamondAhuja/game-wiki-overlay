@@ -12,5 +12,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
   stopResize: () => {
     ipcRenderer.send('stop-resize');
+  },
+  setOpacity: (opacity) => {
+    ipcRenderer.send('set-opacity', opacity);
   }
 });
