@@ -41,9 +41,22 @@ A virtual cursor appears when you use the controller, letting you click any link
 | **A** | Click at cursor position |
 | **B** | Go back |
 | **Y** | Home (wiki selection) |
-| **X** | Focus search box |
+| **X** | Open on-screen keyboard |
 | **LB / RB** | Page up / Page down |
-| **Start** | Hide overlay (return to game) |
+
+#### On-Screen Keyboard
+
+Press **X** to open the keyboard for searching. While the keyboard is open:
+
+| Button | Action |
+|--------|--------|
+| **D-pad / Left Stick** | Navigate keys |
+| **A** | Type selected key |
+| **B** | Close keyboard (cancel) |
+| **X** | Backspace |
+| **Y** | Space |
+| **LB / RB** | Switch layout (letters/numbers) |
+| **Start** | Submit search |
 
 > Controller works even when your game has focus - no external tools needed!
 

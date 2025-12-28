@@ -309,9 +309,9 @@ function pollGamepad() {
             handleButtonAction('page-down');
         }
 
-        // Start button - hide overlay (return to game)
+        // Start button - send to renderer (can be intercepted by OSK for submit)
         if (isButtonJustPressed(buttons, XINPUT_GAMEPAD_START)) {
-            handleWindowAction('hide');
+            handleButtonAction('start');
         }
         
         // Left thumb click - could be used for something
