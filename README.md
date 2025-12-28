@@ -35,6 +35,7 @@ A virtual cursor appears when you use the controller, letting you click any link
 | Button | Action |
 |--------|--------|
 | **Back + Start** | Toggle overlay visibility (works in-game!) |
+| **Back + B** | Close/quit the app |
 | **Left Stick** | Move cursor |
 | **D-pad** | Move cursor (with repeat) |
 | **Right Stick** | Scroll page |
