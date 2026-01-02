@@ -6,9 +6,11 @@ An Electron-based transparent overlay that lets you search and view game wiki ar
 
 - 🎮 **Transparent overlay** - Works on top of your games
 - ⌨️ **Global hotkeys** - Control without alt-tabbing
-- 🔍 **Quick search** - Search Minecraft wiki instantly
-- 📖 **Clean rendering** - Easy-to-read wiki content
+- 🔍 **Quick search** - Search any wiki site
+- 📖 **Multi-wiki support** - 12+ popular game wikis built-in, plus custom URL support
+- 🎮 **Full controller support** - Xbox/XInput gamepad with virtual cursor and on-screen keyboard
 - 🖱️ **Click-through mode** - Make overlay non-interactive when needed
+- 🌓 **Opacity control** - Adjust transparency to see your game behind it
 
 ## Installation
 
@@ -30,58 +32,76 @@ npm start
 
 ### Controller Support (Xbox/XInput)
 
-A virtual cursor appears when you use the controller, letting you click any link or button!
+The app has full gamepad support with a virtual cursor that appears automatically when you use the controller!
 
 | Button | Action |
 |--------|--------|
 | **Back + Start** | Toggle overlay visibility (works in-game!) |
 | **Back + B** | Close/quit the app |
 | **Left Stick** | Move cursor |
-| **D-pad** | Move cursor (with repeat) |
+| **D-Pad** | Move cursor (with repeat) |
 | **Right Stick** | Scroll page |
 | **A** | Click at cursor position |
-| **B** | Go back |
-| **Y** | Home (wiki selection) |
+| **B** | Go back to previous page |
+| **Y** | Home (return to wiki selection) |
 | **X** | Open on-screen keyboard |
-| **LB / RB** | Page up / Page down |
+| **LB** | Page up |
+| **RB** | Page down |
+| **Start** | Submit search (when keyboard open) |
 
 #### On-Screen Keyboard
 
-Press **X** to open the keyboard for searching. While the keyboard is open:
+Press **X** to open the keyboard for searching. The keyboard appears with letter and number layouts. While open:
 
 | Button | Action |
 |--------|--------|
-| **D-pad / Left Stick** | Navigate keys |
+| **D-Pad / Left Stick** | Navigate keyboard keys |
 | **A** | Type selected key |
 | **B** | Close keyboard (cancel) |
 | **X** | Backspace |
 | **Y** | Space |
-| **LB / RB** | Switch layout (letters/numbers) |
-| **Start** | Submit search |
-
-> Controller works even when your game has focus - no external tools needed!
+| **LB / RB** | Switch between letter and number layouts |
+| **Start** | Submit search and close keyboard |
 
 ### How to Use
 
 1. Launch the app with `npm start`
-2. Position the overlay window where you want it
+2. Position the overlay window where you want it (drag the title bar to move, use resize handles on edges)
 3. Start your game
 4. Press **Ctrl+Shift+W** to show/hide the overlay
-5. Type in the search box and press Enter
-6. Click on results to view full articles
-7. Use **Ctrl+Shift+C** if you need to click through the overlay
+5. Select a wiki from the landing page or enter a custom URL
+6. Type in the search box and press Enter to search
+7. Click on results to view full articles
+8. Use **Ctrl+Shift+C** to toggle click-through mode if you need to interact with your game
+9. Use your gamepad's Left Stick and A button to navigate if using a controller
 
 ## Customization
 
-You can change the wiki source in [wikiService.js](renderer/wikiService.js):
+### Using Built-in Wikis
 
-```javascript
-const API = "https://minecraft.fandom.com/api.php";
-// Change to any MediaWiki-based wiki
-```
+The application includes 12 popular game wikis:
+- Minecraft
+- Terraria
+- Stardew Valley
+- The Legend of Zelda
+- Dark Souls
+- Elden Ring
+- Hollow Knight
+- Baldur's Gate 3
+- Palworld
+- Path of Exile
+- League of Legends
+- Genshin Impact
+
+Simply click any wiki card on the landing page to start browsing.
+
+### Adding Custom Wikis
+
+You can add any MediaWiki-based website by entering the URL directly in the "Enter wiki URL" field on the landing page. The app will automatically detect and use the wiki's search functionality.
 
 ## Tech Stack
 
-- Electron
+- Electron (v39.2.7)
 - Vanilla JavaScript
-- MediaWiki API
+- XInput for gamepad support (Windows only)
+- Electron webview for displaying wiki content
