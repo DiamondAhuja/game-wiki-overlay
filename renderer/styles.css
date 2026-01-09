@@ -334,7 +334,7 @@ html, body {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 12px;
-  max-width: 800px;
+  /*max-width: 800px;*/
 }
 
 .wiki-card {
