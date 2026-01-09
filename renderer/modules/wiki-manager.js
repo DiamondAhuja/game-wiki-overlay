@@ -91,11 +91,14 @@
       WIKIS.forEach(wikiData => {
         const card = document.createElement('button');
         card.className = 'wiki-card';
+        card.type = 'button';
+        card.setAttribute('role', 'listitem');
         card.dataset.url = wikiData.url;
         card.dataset.search = wikiData.search;
+        card.setAttribute('aria-label', `Open ${wikiData.name} wiki`);
 
         card.innerHTML = `
-          <span class="wiki-icon">${wikiData.icon}</span>
+          <span class="wiki-icon" aria-hidden="true">${wikiData.icon}</span>
           <span class="wiki-name">${wikiData.name}</span>
         `;
 
