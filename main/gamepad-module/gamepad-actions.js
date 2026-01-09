@@ -18,8 +18,9 @@ class GamepadActionDispatcher {
   /**
    * Dispatch a button press to the appropriate handler
    * @param {Object} state - Gamepad state from poll()
+   * @param {boolean} backgroundMode - When true, only process visibility toggle
    */
-  dispatchButtonPress(state) {
+  dispatchButtonPress(state, backgroundMode = false) {
     const { buttons, previousButtons } = state;
 
     // Back + B combo to close app (only on initial combo press)
@@ -29,8 +30,14 @@ class GamepadActionDispatcher {
     }
 
     // Back + Start combo to toggle visibility (only on initial combo press)
+    // This works even in background mode to allow bringing overlay back
     if (this.isComboJustPressed(buttons, previousButtons, BUTTONS.BACK, BUTTONS.START)) {
       this.windowActionHandler.toggleVisibility();
+      return;
+    }
+
+    // Skip navigation processing in background mode
+    if (backgroundMode) {
       return;
     }
 
