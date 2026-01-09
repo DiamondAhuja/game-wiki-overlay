@@ -11,29 +11,29 @@
   --bg-elevated: rgba(32, 32, 42, 0.9);
   
   /* Glass effect */
-  --glass-bg: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-hover: rgba(255, 255, 255, 0.06);
+  --glass-bg: rgba(255, 255, 255, 0.025);
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --glass-hover: rgba(255, 255, 255, 0.05);
   
   /* Depth layers */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.25);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.35);
-  --shadow-xl: 0 12px 40px rgba(0, 0, 0, 0.4);
-  --inset-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  --inset-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 12px 40px rgba(0, 0, 0, 0.35);
+  --inset-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --inset-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
   
-  /* Accent - Cyan/Electric Blue (single accent) */
-  --accent: #00d4ff;
-  --accent-dim: rgba(0, 212, 255, 0.15);
-  --accent-glow: rgba(0, 212, 255, 0.4);
-  --accent-muted: rgba(0, 212, 255, 0.6);
+  /* Accent - Purple/Magenta */
+  --accent: #c678ff;
+  --accent-dim: rgba(198, 120, 255, 0.12);
+  --accent-glow: rgba(198, 120, 255, 0.35);
+  --accent-muted: rgba(198, 120, 255, 0.55);
   
   /* Text hierarchy */
   --text-primary: rgba(255, 255, 255, 0.95);
-  --text-secondary: rgba(255, 255, 255, 0.65);
-  --text-tertiary: rgba(255, 255, 255, 0.4);
-  --text-disabled: rgba(255, 255, 255, 0.25);
+  --text-secondary: rgba(255, 255, 255, 0.55);
+  --text-tertiary: rgba(255, 255, 255, 0.35);
+  --text-disabled: rgba(255, 255, 255, 0.2);
   
   /* Semantic */
   --danger: #ff4757;
@@ -488,54 +488,37 @@ html, body {
 
 .landing-content {
   min-height: 100%;
-  padding: var(--space-2xl) var(--space-3xl);
+  padding: var(--space-xl) var(--space-3xl) var(--space-lg);
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xl);
+  align-items: center;
+  gap: var(--space-lg);
   background: 
-    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0, 212, 255, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(198, 120, 255, 0.03) 0%, transparent 50%),
     radial-gradient(ellipse 60% 40% at 80% 100%, rgba(0, 0, 0, 0.2) 0%, transparent 50%);
 }
 
 /* Header */
 .landing-header {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: var(--space-lg);
+  text-align: center;
+  gap: var(--space-md);
 }
 
-.logo-mark {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 56px;
-  height: 56px;
-  background: linear-gradient(135deg, 
-    rgba(0, 212, 255, 0.2) 0%, 
-    var(--accent-dim) 100%);
-  border: 1px solid var(--accent);
-  border-radius: var(--radius-xl);
-  color: var(--accent);
-  box-shadow: 
-    0 0 30px var(--accent-dim),
-    0 4px 16px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
-}
-
-.logo-mark svg {
-  width: 32px;
-  height: 32px;
+.header-text {
+  text-align: center;
 }
 
 .header-text h1 {
   font-family: var(--font-display);
-  font-size: var(--text-3xl);
+  font-size: var(--text-2xl);
   font-weight: var(--weight-semibold);
   color: var(--text-primary);
   letter-spacing: var(--tracking-tight);
   line-height: 1.2;
-  margin-bottom: var(--space-xs);
+  margin-bottom: 2px;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
@@ -550,12 +533,26 @@ html, body {
 
 /* URL Input Section */
 .url-section {
-  max-width: 560px;
+  width: calc(100% + var(--space-lg) * 2);
+  padding: var(--space-md) var(--space-lg);
+  margin: 0 calc(-1 * var(--space-lg));
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(180deg, 
+    rgba(0, 0, 0, 0.2) 0%, 
+    rgba(0, 0, 0, 0.1) 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.02),
+    0 1px 0 rgba(255, 255, 255, 0.02);
 }
 
 #wiki-search-container {
   display: flex;
   gap: var(--space-md);
+  width: 100%;
+  max-width: 480px;
 }
 
 .input-wrapper {
@@ -621,7 +618,7 @@ html, body {
   border: 1px solid var(--accent);
   border-radius: var(--radius-lg);
   background: linear-gradient(180deg, 
-    rgba(0, 212, 255, 0.2) 0%, 
+    rgba(198, 120, 255, 0.2) 0%, 
     var(--accent-dim) 100%);
   box-shadow: 
     inset 0 1px 0 rgba(255, 255, 255, 0.1),
@@ -658,18 +655,20 @@ html, body {
 /* Wiki Grid Section */
 .wikis-section {
   flex: 1;
+  width: 100%;
+  align-self: stretch;
 }
 
 .section-title {
   display: flex;
   align-items: center;
-  gap: var(--space-lg);
+  gap: var(--space-md);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   color: var(--text-tertiary);
   text-transform: uppercase;
   letter-spacing: var(--tracking-widest);
-  margin-bottom: var(--space-xl);
+  margin-bottom: var(--space-md);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
@@ -685,9 +684,10 @@ html, body {
 }
 
 #wiki-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: var(--space-lg);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-md);
 }
 
 /* Wiki Cards */
@@ -696,19 +696,25 @@ html, body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--space-md);
+  gap: var(--space-sm);
   padding: var(--space-xl) var(--space-lg);
-  min-height: 110px;
-  border: 2px solid var(--glass-border);
-  border-radius: var(--radius-lg);
+  min-width: 130px;
+  max-width: 160px;
+  flex: 0 1 130px;
+  min-height: 100px;
+  border: 1px solid var(--glass-border);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.4);
+  border-radius: var(--radius-md);
   background: linear-gradient(180deg, 
     rgba(255, 255, 255, 0.04) 0%, 
-    var(--glass-bg) 50%,
+    rgba(255, 255, 255, 0.01) 40%,
     rgba(0, 0, 0, 0.02) 100%);
   box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
     inset 0 -1px 0 rgba(0, 0, 0, 0.1),
-    var(--shadow-sm);
+    0 1px 0 rgba(255, 255, 255, 0.02),
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    0 4px 8px rgba(0, 0, 0, 0.15);
   color: var(--text-primary);
   cursor: pointer;
   transition: all var(--transition-base);
@@ -717,48 +723,64 @@ html, body {
   overflow: hidden;
 }
 
-/* Subtle gradient overlay */
+/* Subtle top shine */
 .wiki-card::before {
   content: '';
   position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.02) 0%,
-    transparent 50%,
-    rgba(0, 0, 0, 0.02) 100%
-  );
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 10%, 
+    rgba(255, 255, 255, 0.08) 50%, 
+    transparent 90%);
   pointer-events: none;
 }
 
 .wiki-card:hover {
   background: linear-gradient(180deg, 
-    rgba(255, 255, 255, 0.07) 0%, 
-    var(--glass-hover) 50%,
-    rgba(0, 0, 0, 0.02) 100%);
-  border-color: rgba(255, 255, 255, 0.15);
-  transform: translateY(-3px);
+    rgba(255, 255, 255, 0.06) 0%, 
+    rgba(255, 255, 255, 0.02) 40%,
+    rgba(0, 0, 0, 0.01) 100%);
+  border-color: rgba(255, 255, 255, 0.1);
+  border-bottom-color: rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
   box-shadow: 
     inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 4px 8px rgba(0, 0, 0, 0.2),
-    0 12px 28px rgba(0, 0, 0, 0.35);
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1),
+    0 1px 0 rgba(255, 255, 255, 0.02),
+    0 4px 8px rgba(0, 0, 0, 0.25),
+    0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.wiki-card:hover::before {
+  background: linear-gradient(90deg, 
+    transparent 5%, 
+    rgba(255, 255, 255, 0.12) 50%, 
+    transparent 95%);
 }
 
 .wiki-card:active {
-  transform: translateY(0);
+  transform: translateY(1px);
+  border-bottom-width: 1px;
+  box-shadow: 
+    inset 0 1px 2px rgba(0, 0, 0, 0.15),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.05),
+    0 1px 2px rgba(0, 0, 0, 0.2);
   transition-duration: 0.05s;
 }
 
 .wiki-icon {
-  font-size: 32px;
+  font-size: 26px;
   line-height: 1;
-  filter: grayscale(0.15);
+  filter: grayscale(0.1);
   transition: filter var(--transition-base), transform var(--transition-base);
 }
 
 .wiki-card:hover .wiki-icon {
-  filter: grayscale(0);
-  transform: scale(1.1);
+  filter: grayscale(0) brightness(1.05);
+  transform: scale(1.08);
 }
 
 .wiki-name {
@@ -782,12 +804,12 @@ html, body {
 .hints-footer {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-xl);
-  padding: var(--space-xl) var(--space-lg);
+  gap: var(--space-lg);
+  padding: var(--space-lg);
   margin: 0 calc(-1 * var(--space-lg));
   border-top: 1px solid var(--glass-border);
   background: linear-gradient(180deg, 
-    rgba(0, 0, 0, 0.15) 0%, 
+    rgba(0, 0, 0, 0.12) 0%, 
     transparent 100%);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
   margin-top: auto;
@@ -869,7 +891,7 @@ kbd {
   box-shadow: 
     0 0 0 3px var(--accent-dim),
     0 0 24px var(--accent-glow),
-    inset 0 0 12px rgba(0, 212, 255, 0.05) !important;
+    inset 0 0 12px rgba(198, 120, 255, 0.05) !important;
 }
 
 #go-btn.gamepad-selected {
@@ -880,9 +902,9 @@ kbd {
   color: var(--bg-primary) !important;
   box-shadow: 
     0 0 0 3px var(--accent-dim),
-    0 0 0 6px rgba(0, 212, 255, 0.1),
+    0 0 0 6px rgba(198, 120, 255, 0.1),
     0 4px 16px var(--accent-glow),
-    0 8px 32px rgba(0, 212, 255, 0.3),
+    0 8px 32px rgba(198, 120, 255, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
   transform: scale(1.05);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
@@ -890,7 +912,7 @@ kbd {
 
 .wiki-card.gamepad-selected {
   background: linear-gradient(180deg, 
-    rgba(0, 212, 255, 0.15) 0%, 
+    rgba(198, 120, 255, 0.15) 0%, 
     var(--accent-dim) 50%,
     rgba(0, 180, 220, 0.1) 100%) !important;
   border-color: var(--accent) !important;
@@ -898,7 +920,7 @@ kbd {
   transform: translateY(-4px) scale(1.04);
   box-shadow: 
     0 0 0 3px var(--accent-dim),
-    0 0 0 6px rgba(0, 212, 255, 0.1),
+    0 0 0 6px rgba(198, 120, 255, 0.1),
     0 8px 16px rgba(0, 0, 0, 0.3),
     0 16px 40px var(--accent-glow),
     inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
@@ -908,19 +930,19 @@ kbd {
 @keyframes card-pulse {
   0%, 100% {
     box-shadow: 
-      0 0 0 3px var(--accent-dim),
-      0 0 0 6px rgba(0, 212, 255, 0.1),
-      0 8px 16px rgba(0, 0, 0, 0.3),
-      0 16px 40px var(--accent-glow),
-      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      0 0 0 2px var(--accent-dim),
+      0 0 0 4px rgba(198, 120, 255, 0.08),
+      0 6px 16px rgba(0, 0, 0, 0.25),
+      0 12px 32px var(--accent-glow),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
   50% {
     box-shadow: 
-      0 0 0 4px var(--accent-dim),
-      0 0 0 8px rgba(0, 212, 255, 0.08),
-      0 8px 16px rgba(0, 0, 0, 0.3),
-      0 20px 50px rgba(0, 212, 255, 0.5),
-      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      0 0 0 3px var(--accent-dim),
+      0 0 0 6px rgba(198, 120, 255, 0.1),
+      0 6px 16px rgba(0, 0, 0, 0.25),
+      0 16px 40px rgba(198, 120, 255, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 }
 
@@ -930,16 +952,16 @@ kbd {
   inset: -2px;
   border-radius: calc(var(--radius-lg) + 2px);
   background: linear-gradient(135deg, 
-    rgba(0, 212, 255, 0.2) 0%, 
+    rgba(198, 120, 255, 0.2) 0%, 
     transparent 50%, 
-    rgba(0, 212, 255, 0.1) 100%);
+    rgba(198, 120, 255, 0.1) 100%);
   pointer-events: none;
   z-index: -1;
 }
 
 .wiki-card.gamepad-selected .wiki-icon {
-  filter: grayscale(0) drop-shadow(0 0 8px var(--accent-glow));
-  transform: scale(1.2);
+  filter: grayscale(0) drop-shadow(0 0 6px var(--accent-glow));
+  transform: scale(1.1);
 }
 
 .wiki-card.gamepad-selected .wiki-name {
