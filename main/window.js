@@ -36,9 +36,9 @@ function createWindow() {
     ...bounds,
     transparent: true,
     frame: false,
-    alwaysOnTop: true,
     resizable: true,
     hasShadow: false,
+    skipTaskbar: false,
     webPreferences: {
       preload: path.join(__dirname, "../preload.js"),
       contextIsolation: true,
@@ -46,6 +46,9 @@ function createWindow() {
       webviewTag: true
     }
   });
+
+  // Use 'screen-saver' level to appear above fullscreen games
+  mainWindow.setAlwaysOnTop(true, 'screen-saver');
 
   mainWindow.loadFile("renderer/index.html");
 

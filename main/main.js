@@ -2,12 +2,14 @@ const { app, ipcMain, screen } = require('electron');
 const { createWindow, getMainWindow } = require('./window');
 const { setupShortcuts } = require('./shortcuts');
 const { setupSecurity } = require('./security');
-const { startPolling, stopPolling } = require('./gamepad-module/gamepad');
+const { startPolling, stopPolling, setBackgroundMode } = require('./gamepad-module/gamepad');
 
 app.whenReady().then(() => {
   setupSecurity();
   createWindow();
   setupShortcuts();
+  
+  const win = getMainWindow();
   
   // Start gamepad polling (Windows only)
   if (process.platform === 'win32') {
@@ -16,6 +18,27 @@ app.whenReady().then(() => {
     } catch (err) {
       console.log('Gamepad support not available:', err.message);
     }
+  }
+  
+  // Switch to background mode when overlay loses focus
+  // Background mode only listens for visibility toggle combo (Back+Start)
+  // Full mode processes all navigation inputs
+  if (win) {
+    win.on('hide', () => {
+      setBackgroundMode(true);
+    });
+    
+    win.on('show', () => {
+      setBackgroundMode(false);
+    });
+    
+    win.on('blur', () => {
+      setBackgroundMode(true);
+    });
+    
+    win.on('focus', () => {
+      setBackgroundMode(false);
+    });
   }
 });
 

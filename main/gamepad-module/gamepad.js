@@ -39,6 +39,7 @@ let gamepadInput = null;
 let gamepadDispatcher = null;
 let repeatHandler = null;
 let pollInterval = null;
+let backgroundMode = false; // When true, only process visibility toggle combo
 
 
 /**
@@ -82,10 +83,20 @@ const windowActionHandler = {
     const win = getValidWindow();
     if (win) {
       if (win.isVisible()) {
-        win.hide();
+        // First minimize to taskbar - this properly returns focus to previous app
+        win.minimize();
+        // Then hide after a brief delay so Windows processes the focus change
+        setTimeout(() => {
+          if (win && !win.isDestroyed()) {
+            win.hide();
+          }
+        }, 50);
       } else {
         win.show();
+        win.restore();
         win.focus();
+        // Re-apply always on top after restore
+        win.setAlwaysOnTop(true, 'screen-saver');
       }
     }
   }
@@ -117,8 +128,13 @@ function pollGamepad() {
     return;
   }
 
-  // Dispatch button presses to appropriate handlers
-  gamepadDispatcher.dispatchButtonPress(state);
+  // Always dispatch button presses (handles visibility toggle combo even in background mode)
+  gamepadDispatcher.dispatchButtonPress(state, backgroundMode);
+
+  // Skip navigation/cursor input when in background mode
+  if (backgroundMode) {
+    return;
+  }
 
   // Dispatch D-pad input with repeat
   gamepadDispatcher.dispatchDpad(state, (direction) => {
@@ -160,14 +176,26 @@ function pollGamepad() {
  * @returns {boolean} Success status
  */
 function startPolling() {
-  // Initialize components
-  gamepadInput = new GamepadInput();
-  repeatHandler = new ButtonRepeatHandler();
-  gamepadDispatcher = new GamepadActionDispatcher(windowActionHandler, navigationActionHandler);
-
-  if (!gamepadInput.init()) {
-    console.log('Gamepad support disabled - XInput not available');
-    return false;
+  // Already polling
+  if (pollInterval) {
+    return true;
+  }
+  
+  // Initialize components if needed
+  if (!gamepadInput) {
+    gamepadInput = new GamepadInput();
+    if (!gamepadInput.init()) {
+      console.log('Gamepad support disabled - XInput not available');
+      return false;
+    }
+  }
+  
+  if (!repeatHandler) {
+    repeatHandler = new ButtonRepeatHandler();
+  }
+  
+  if (!gamepadDispatcher) {
+    gamepadDispatcher = new GamepadActionDispatcher(windowActionHandler, navigationActionHandler);
   }
 
   // Poll at specified frequency
@@ -198,4 +226,17 @@ function stopPolling() {
   console.log('Gamepad polling stopped');
 }
 
-module.exports = { startPolling, stopPolling };
+/**
+ * Set background mode - when true, only visibility toggle combo is processed
+ * @param {boolean} enabled - Whether to enable background mode
+ */
+function setBackgroundMode(enabled) {
+  backgroundMode = enabled;
+  
+  // Clear repeat handlers when entering background mode
+  if (enabled && repeatHandler) {
+    repeatHandler.clearAll();
+  }
+}
+
+module.exports = { startPolling, stopPolling, setBackgroundMode };
