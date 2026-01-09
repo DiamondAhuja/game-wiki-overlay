@@ -6,7 +6,7 @@
  */
 
 const koffi = require('koffi');
-const { BUTTONS, ANALOG_CONFIG, POLLING, DPAD_REPEAT } = require('./gamepadConfig');
+const { BUTTONS, ANALOG_CONFIG, POLLING, DPAD_REPEAT } = require('./gamepad-config');
 
 class GamepadInput {
   constructor() {

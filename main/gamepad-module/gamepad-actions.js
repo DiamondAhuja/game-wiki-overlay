@@ -6,7 +6,7 @@
  * Strategy Pattern: different handlers for different button types.
  */
 
-const { BUTTONS } = require('./gamepadConfig');
+const { BUTTONS } = require('./gamepad-config');
 
 class GamepadActionDispatcher {
   constructor(windowActionHandler, navigationActionHandler) {

@@ -11,10 +11,28 @@
  */
 
 const { getMainWindow } = require('../window');
-const GamepadInput = require('./gamepadInput');
-const GamepadActionDispatcher = require('./gamepadActions');
-const ButtonRepeatHandler = require('./buttonRepeatHandler');
-const { ANALOG_CONFIG, POLLING } = require('./gamepadConfig');
+
+/**
+ * @typedef {Object} WindowActionHandler
+ * @property {() => boolean} isWindowVisible - Check if main window is visible
+ * @property {() => void} closeApp - Close the application
+ * @property {() => void} toggleVisibility - Toggle window visibility
+ */
+
+/**
+ * @typedef {Object} NavigationActionHandler
+ * @property {() => void} handleClick - Handle A button click
+ * @property {() => void} handleBack - Handle B button back
+ * @property {() => void} handleHome - Handle Y button home
+ * @property {() => void} handleOpenKeyboard - Handle X button keyboard
+ * @property {() => void} handlePageUp - Handle LB page up
+ * @property {() => void} handlePageDown - Handle RB page down
+ * @property {() => void} handleSubmitSearch - Handle Start button submit
+ */
+const GamepadInput = require('./gamepad-input');
+const GamepadActionDispatcher = require('./gamepad-actions');
+const ButtonRepeatHandler = require('./button-repeat-handler');
+const { ANALOG_CONFIG, POLLING } = require('./gamepad-config');
 
 // Module state
 let gamepadInput = null;
@@ -24,22 +42,45 @@ let pollInterval = null;
 
 
 /**
- * Window action handler - implements interface expected by GamepadActionDispatcher
+ * Safely get the main window if it exists and is not destroyed
+ * @returns {Electron.BrowserWindow|null}
+ * @private
+ */
+function getValidWindow() {
+  const win = getMainWindow();
+  return (win && !win.isDestroyed()) ? win : null;
+}
+
+/**
+ * Send a gamepad action to the renderer process
+ * @param {string} action - The action name to send
+ * @private
+ */
+function sendGamepadAction(action) {
+  const win = getValidWindow();
+  if (win) {
+    win.webContents.send('gamepad-action', action);
+  }
+}
+
+/**
+ * Window action handler - implements WindowActionHandler interface
+ * @type {WindowActionHandler}
  */
 const windowActionHandler = {
   isWindowVisible() {
-    const win = getMainWindow();
-    return win && !win.isDestroyed() && win.isVisible();
+    const win = getValidWindow();
+    return win ? win.isVisible() : false;
   },
   closeApp() {
-    const win = getMainWindow();
-    if (win && !win.isDestroyed()) {
+    const win = getValidWindow();
+    if (win) {
       require('electron').app.quit();
     }
   },
   toggleVisibility() {
-    const win = getMainWindow();
-    if (win && !win.isDestroyed()) {
+    const win = getValidWindow();
+    if (win) {
       if (win.isVisible()) {
         win.hide();
       } else {
@@ -51,51 +92,18 @@ const windowActionHandler = {
 };
 
 /**
- * Navigation action handler - implements interface expected by GamepadActionDispatcher
+ * Navigation action handler - implements NavigationActionHandler interface
+ * Uses sendGamepadAction utility to reduce repetition
+ * @type {NavigationActionHandler}
  */
 const navigationActionHandler = {
-  handleClick() {
-    const win = getMainWindow();
-    if (win && !win.isDestroyed()) {
-      win.webContents.send('gamepad-action', 'click');
-    }
-  },
-  handleBack() {
-    const win = getMainWindow();
-    if (win && !win.isDestroyed()) {
-      win.webContents.send('gamepad-action', 'back');
-    }
-  },
-  handleHome() {
-    const win = getMainWindow();
-    if (win && !win.isDestroyed()) {
-      win.webContents.send('gamepad-action', 'home');
-    }
-  },
-  handleOpenKeyboard() {
-    const win = getMainWindow();
-    if (win && !win.isDestroyed()) {
-      win.webContents.send('gamepad-action', 'search');
-    }
-  },
-  handlePageUp() {
-    const win = getMainWindow();
-    if (win && !win.isDestroyed()) {
-      win.webContents.send('gamepad-action', 'page-up');
-    }
-  },
-  handlePageDown() {
-    const win = getMainWindow();
-    if (win && !win.isDestroyed()) {
-      win.webContents.send('gamepad-action', 'page-down');
-    }
-  },
-  handleSubmitSearch() {
-    const win = getMainWindow();
-    if (win && !win.isDestroyed()) {
-      win.webContents.send('gamepad-action', 'start');
-    }
-  }
+  handleClick: () => sendGamepadAction('click'),
+  handleBack: () => sendGamepadAction('back'),
+  handleHome: () => sendGamepadAction('home'),
+  handleOpenKeyboard: () => sendGamepadAction('search'),
+  handlePageUp: () => sendGamepadAction('page-up'),
+  handlePageDown: () => sendGamepadAction('page-down'),
+  handleSubmitSearch: () => sendGamepadAction('start')
 };
 
 /**

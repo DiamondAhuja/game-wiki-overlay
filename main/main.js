@@ -2,7 +2,7 @@ const { app, ipcMain, screen } = require('electron');
 const { createWindow, getMainWindow } = require('./window');
 const { setupShortcuts } = require('./shortcuts');
 const { setupSecurity } = require('./security');
-const { startPolling, stopPolling } = require('./gamepadModule/gamepad');
+const { startPolling, stopPolling } = require('./gamepad-module/gamepad');
 
 app.whenReady().then(() => {
   setupSecurity();

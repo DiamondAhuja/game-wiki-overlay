@@ -5,7 +5,7 @@
  * Single Responsibility: handles timing and state for button repeats only.
  */
 
-const { DPAD_REPEAT } = require('./gamepadConfig');
+const { DPAD_REPEAT } = require('./gamepad-config');
 
 class ButtonRepeatHandler {
   constructor() {
