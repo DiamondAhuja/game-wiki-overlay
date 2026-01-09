@@ -4,6 +4,7 @@ const { contextBridge, ipcRenderer } = require('electron');
 let clickThroughListener = null;
 let gamepadListener = null;
 let analogListener = null;
+let scrollListener = null;
 
 contextBridge.exposeInMainWorld('electronAPI', {
   onClickThroughChanged: (callback) => {
@@ -27,6 +28,13 @@ contextBridge.exposeInMainWorld('electronAPI', {
     }
     analogListener = (event, data) => callback(data);
     ipcRenderer.on('analog-input', analogListener);
+  },
+  onGamepadScroll: (callback) => {
+    if (scrollListener) {
+      ipcRenderer.removeListener('gamepad-scroll', scrollListener);
+    }
+    scrollListener = (event, data) => callback(data);
+    ipcRenderer.on('gamepad-scroll', scrollListener);
   },
   closeWindow: () => {
     ipcRenderer.send('close-window');

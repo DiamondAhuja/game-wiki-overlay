@@ -456,9 +456,10 @@ function oskSwitchLayout() {
 // Free-moving cursor that highlights nearest clickable element
 const cursor = document.getElementById('gamepad-cursor');
 const CURSOR_SPEED = 8; // Pixels per input
-const SCROLL_SPEED = 8;
+const SCROLL_SPEED = 1;
 const CURSOR_HIDE_DELAY = 5000;
-const SNAP_RADIUS = 80; // How close to snap to an element
+const SNAP_RADIUS = 100; // How close to snap to an element
+const SNAP_STRENGTH = 0.3; // Magnetic attraction strength (0-1, higher = stronger pull)
 
 let cursorX = window.innerWidth / 2;
 let cursorY = window.innerHeight / 2;
@@ -477,6 +478,8 @@ function showCursor() {
   cursor.style.left = cursorX + 'px';
   cursor.style.top = cursorY + 'px';
   resetCursorHideTimer();
+  startElementRefresh();
+  // Immediately refresh elements when cursor is shown
   refreshClickableElements();
 }
 
@@ -486,6 +489,7 @@ function hideCursor() {
   cursor.classList.remove('snapped');
   clearAllHighlights();
   currentHighlightedElement = null;
+  stopElementRefresh();
 }
 
 function resetCursorHideTimer() {
@@ -515,8 +519,32 @@ function updateCursor() {
 function moveCursor(dx, dy) {
   showCursor();
   
-  cursorX = Math.max(10, Math.min(window.innerWidth - 10, cursorX + dx));
-  cursorY = Math.max(10, Math.min(window.innerHeight - 10, cursorY + dy));
+  // Apply manual movement
+  cursorX += dx;
+  cursorY += dy;
+  
+  // Apply magnetic attraction toward nearest element
+  // Uses elements from periodic refresh (updated every 300ms, not every frame)
+  const nearest = findNearestElement();
+  if (nearest) {
+    const distToNearest = Math.hypot(cursorX - nearest.centerX, cursorY - nearest.centerY);
+    
+    // Only apply attraction if within snap radius
+    if (distToNearest < SNAP_RADIUS && distToNearest > 0) {
+      // Calculate direction toward element
+      const dirX = (nearest.centerX - cursorX) / distToNearest;
+      const dirY = (nearest.centerY - cursorY) / distToNearest;
+      
+      // Apply magnetic pull (stronger when closer)
+      const attractionForce = SNAP_STRENGTH * (1 - distToNearest / SNAP_RADIUS);
+      cursorX += dirX * CURSOR_SPEED * attractionForce;
+      cursorY += dirY * CURSOR_SPEED * attractionForce;
+    }
+  }
+  
+  // Clamp to window bounds
+  cursorX = Math.max(10, Math.min(window.innerWidth - 10, cursorX));
+  cursorY = Math.max(10, Math.min(window.innerHeight - 10, cursorY));
   
   updateCursor();
   resetCursorHideTimer();
@@ -637,11 +665,13 @@ function getLocalClickableElements() {
 
 // Refresh all clickable elements (async for webview)
 function refreshClickableElements() {
-  // Get local elements immediately
-  allClickableElements = getLocalClickableElements();
+  // Get local elements
+  const localElements = getLocalClickableElements();
   
   // Get webview elements asynchronously
   if (wiki.classList.contains('active')) {
+    // Preserve existing webview elements while fetching new ones
+    const existingWebviewElements = allClickableElements.filter(el => el.isWebviewElement);
     const webviewRect = wiki.getBoundingClientRect();
     
     // Inject styles if needed
@@ -719,19 +749,42 @@ function refreshClickableElements() {
         webviewIndex: r.index
       }));
       
-      // Merge with local elements
-      allClickableElements = getLocalClickableElements().concat(webviewElements);
+      // Merge local elements with fetched webview elements
+      allClickableElements = localElements.concat(webviewElements);
       
       // Update highlight based on current cursor position
       if (cursorVisible) {
         updateCursor();
       }
-    }).catch(() => {});
+    }).catch(() => {
+      // If fetch fails, at least keep local + existing webview elements
+      allClickableElements = localElements.concat(existingWebviewElements);
+    });
   } else {
+    // Not on wiki page, just use local elements
+    allClickableElements = localElements;
+    
     // Update highlight based on current cursor position
     if (cursorVisible) {
       updateCursor();
     }
+  }
+}
+
+// Periodic refresh of clickable elements (every 300ms when cursor is visible)
+let elementRefreshInterval = null;
+function startElementRefresh() {
+  if (elementRefreshInterval) clearInterval(elementRefreshInterval);
+  elementRefreshInterval = setInterval(() => {
+    if (cursorVisible) {
+      refreshClickableElements();
+    }
+  }, 300);
+}
+function stopElementRefresh() {
+  if (elementRefreshInterval) {
+    clearInterval(elementRefreshInterval);
+    elementRefreshInterval = null;
   }
 }
 
@@ -937,6 +990,20 @@ if (window.electronAPI) {
     
     if (data.dx !== 0 || data.dy !== 0) {
       moveCursor(data.dx, data.dy);
+    }
+  });
+
+  // Handle right stick scrolling
+  window.electronAPI.onGamepadScroll((data) => {
+    if (wiki.classList.contains('active') && !oskVisible) {
+      // Scroll the webview using the existing SCROLL_SPEED constant
+      const scrollAmount = Math.round(data.scrollY * SCROLL_SPEED * 5);
+      if (scrollAmount !== 0) {
+        console.log('Scrolling webview by:', scrollAmount);
+        wiki.executeJavaScript(`window.scrollBy(0, ${scrollAmount});`).catch(err => {
+          // Silently ignore errors (webview may not be ready)
+        });
+      }
     }
   });
 }
