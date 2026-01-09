@@ -9,7 +9,7 @@ const status = document.getElementById("status");
 const landingPage = document.getElementById("landing-page");
 const wikiUrlInput = document.getElementById("wiki-url-input");
 const goBtn = document.getElementById("go-btn");
-const wikiCards = document.querySelectorAll(".wiki-card");
+const wikiGrid = document.getElementById("wiki-grid");
 
 // Current wiki configuration
 let WIKI_CONFIG = {
@@ -49,14 +49,37 @@ function showWiki(baseUrl, searchUrl) {
   searchBtn.disabled = false;
 }
 
-// Wiki card selection
-wikiCards.forEach(card => {
-  card.addEventListener("click", () => {
-    const url = card.dataset.url;
-    const searchUrl = card.dataset.search;
-    showWiki(url, searchUrl);
+/**
+ * Dynamically renders wiki cards from WIKIS configuration
+ * This separates data (wikis-config.js) from presentation (renderer.js)
+ * Following the Single Responsibility Principle
+ */
+function renderWikiCards() {
+  // Clear existing cards
+  wikiGrid.innerHTML = "";
+  
+  // Create a card for each wiki in the configuration
+  WIKIS.forEach(wiki => {
+    const card = document.createElement("button");
+    card.className = "wiki-card";
+    card.dataset.url = wiki.url;
+    card.dataset.search = wiki.search;
+    
+    card.innerHTML = `
+      <span class="wiki-icon">${wiki.icon}</span>
+      <span class="wiki-name">${wiki.name}</span>
+    `;
+    
+    card.addEventListener("click", () => {
+      showWiki(wiki.url, wiki.search);
+    });
+    
+    wikiGrid.appendChild(card);
   });
-});
+}
+
+// Initialize wiki cards when DOM is ready
+renderWikiCards();
 
 // Custom URL input
 function goToCustomUrl() {
