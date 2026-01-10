@@ -161,11 +161,12 @@ function pollGamepad() {
       // Max post-deadzone value is approximately (32767 - 8000) = 24767
       const maxPostDeadzone = ANALOG_CONFIG.STICK_MAX - ANALOG_CONFIG.DEADZONE;
       const scrollSpeed = 15; // Pixels per poll at full deflection
+      const scrollX = (rightStickX / maxPostDeadzone) * scrollSpeed;
       const scrollY = (rightStickY / maxPostDeadzone) * scrollSpeed;
       
       // Only send if there's meaningful movement
-      if (Math.abs(scrollY) > 0.5) {
-        win.webContents.send('gamepad-scroll', { scrollY });
+      if (Math.abs(scrollX) > 0.5 || Math.abs(scrollY) > 0.5) {
+        win.webContents.send('gamepad-scroll', { scrollX, scrollY });
       }
     }
   });
