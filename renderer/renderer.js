@@ -191,6 +191,8 @@
       // Right stick scrolling
       'scroll-up-analog': () => gamepadCursor.scrollPage(0, -CONFIG.SCROLL_ANALOG_STEP),
       'scroll-down-analog': () => gamepadCursor.scrollPage(0, CONFIG.SCROLL_ANALOG_STEP),
+      'scroll-left-analog': () => gamepadCursor.scrollPage(-CONFIG.SCROLL_ANALOG_STEP, 0),
+      'scroll-right-analog': () => gamepadCursor.scrollPage(CONFIG.SCROLL_ANALOG_STEP, 0),
       
       // Page scrolling (LB/RB)
       'page-up': () => gamepadCursor.scrollPage(0, -CONFIG.SCROLL_PAGE_AMOUNT),
@@ -250,7 +252,7 @@
     // Handle right stick scrolling
     window.electronAPI.onGamepadScroll((data) => {
       if (wikiManager.isWikiActive() && !oskManager.isVisible()) {
-        gamepadCursor.scrollWithGamepad(data.scrollY);
+        gamepadCursor.scrollWithGamepad(data.scrollX, data.scrollY);
       }
     });
 

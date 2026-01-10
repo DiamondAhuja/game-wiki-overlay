@@ -190,13 +190,15 @@
 
     /**
      * Scroll with gamepad (right stick)
+     * @param {number} scrollX - Horizontal scroll delta
      * @param {number} scrollY - Vertical scroll delta
      */
-    scrollWithGamepad(scrollY) {
+    scrollWithGamepad(scrollX, scrollY) {
       if (this.webviewBridge.isActive()) {
-        const scrollAmount = Math.round(scrollY * CONFIG.SCROLL_SPEED * 5);
-        if (scrollAmount !== 0) {
-          this.webviewBridge.scroll(0, scrollAmount);
+        const scrollAmountX = Math.round(scrollX * CONFIG.SCROLL_SPEED * 5);
+        const scrollAmountY = Math.round(scrollY * CONFIG.SCROLL_SPEED * 5);
+        if (scrollAmountX !== 0 || scrollAmountY !== 0) {
+          this.webviewBridge.scroll(scrollAmountX, scrollAmountY);
         }
       }
     }
