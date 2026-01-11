@@ -1,12 +1,12 @@
 /**
  * Gamepad Action Dispatcher
- * 
+ *
  * Routes button presses to appropriate action handlers.
  * Decouples button detection from action execution.
  * Strategy Pattern: different handlers for different button types.
  */
 
-const { BUTTONS } = require('./gamepad-config');
+const { BUTTONS } = require("./gamepad-config");
 
 class GamepadActionDispatcher {
   constructor(windowActionHandler, navigationActionHandler) {
@@ -24,14 +24,23 @@ class GamepadActionDispatcher {
     const { buttons, previousButtons } = state;
 
     // Back + B combo to close app (only on initial combo press)
-    if (this.isComboJustPressed(buttons, previousButtons, BUTTONS.BACK, BUTTONS.B)) {
+    if (
+      this.isComboJustPressed(buttons, previousButtons, BUTTONS.BACK, BUTTONS.B)
+    ) {
       this.windowActionHandler.closeApp();
       return;
     }
 
     // Back + Start combo to toggle visibility (only on initial combo press)
     // This works even in background mode to allow bringing overlay back
-    if (this.isComboJustPressed(buttons, previousButtons, BUTTONS.BACK, BUTTONS.START)) {
+    if (
+      this.isComboJustPressed(
+        buttons,
+        previousButtons,
+        BUTTONS.BACK,
+        BUTTONS.START
+      )
+    ) {
       this.windowActionHandler.toggleVisibility();
       return;
     }
@@ -83,14 +92,17 @@ class GamepadActionDispatcher {
     }
 
     const { leftStickX, leftStickY, rightStickX, rightStickY } = state;
-    
+
     // Process left stick movement (cursor)
     if (Math.abs(leftStickX) > 100 || Math.abs(leftStickY) > 100) {
       analogCallback(leftStickX, -leftStickY); // Negate Y for correct direction
     }
 
     // Process right stick movement (scrolling)
-    if (scrollCallback && (Math.abs(rightStickX) > 100 || Math.abs(rightStickY) > 100)) {
+    if (
+      scrollCallback &&
+      (Math.abs(rightStickX) > 100 || Math.abs(rightStickY) > 100)
+    ) {
       scrollCallback(rightStickX, -rightStickY); // Negate Y for correct direction
     }
   }
@@ -111,7 +123,8 @@ class GamepadActionDispatcher {
     // D-pad up
     if (this.isPressed(buttons, BUTTONS.DPAD_UP)) {
       if (this.isJustPressed(buttons, previousButtons, BUTTONS.DPAD_UP)) {
-        repeatHandler.startRepeat(BUTTONS.DPAD_UP, () => dpadCallback('up'));
+        dpadCallback("up");
+        repeatHandler.startRepeat(BUTTONS.DPAD_UP, () => dpadCallback("up"));
       }
     } else {
       repeatHandler.clearRepeat(BUTTONS.DPAD_UP);
@@ -120,7 +133,10 @@ class GamepadActionDispatcher {
     // D-pad down
     if (this.isPressed(buttons, BUTTONS.DPAD_DOWN)) {
       if (this.isJustPressed(buttons, previousButtons, BUTTONS.DPAD_DOWN)) {
-        repeatHandler.startRepeat(BUTTONS.DPAD_DOWN, () => dpadCallback('down'));
+        dpadCallback("down");
+        repeatHandler.startRepeat(BUTTONS.DPAD_DOWN, () =>
+          dpadCallback("down")
+        );
       }
     } else {
       repeatHandler.clearRepeat(BUTTONS.DPAD_DOWN);
@@ -129,7 +145,10 @@ class GamepadActionDispatcher {
     // D-pad left
     if (this.isPressed(buttons, BUTTONS.DPAD_LEFT)) {
       if (this.isJustPressed(buttons, previousButtons, BUTTONS.DPAD_LEFT)) {
-        repeatHandler.startRepeat(BUTTONS.DPAD_LEFT, () => dpadCallback('left'));
+        dpadCallback("left");
+        repeatHandler.startRepeat(BUTTONS.DPAD_LEFT, () =>
+          dpadCallback("left")
+        );
       }
     } else {
       repeatHandler.clearRepeat(BUTTONS.DPAD_LEFT);
@@ -138,7 +157,10 @@ class GamepadActionDispatcher {
     // D-pad right
     if (this.isPressed(buttons, BUTTONS.DPAD_RIGHT)) {
       if (this.isJustPressed(buttons, previousButtons, BUTTONS.DPAD_RIGHT)) {
-        repeatHandler.startRepeat(BUTTONS.DPAD_RIGHT, () => dpadCallback('right'));
+        dpadCallback("right");
+        repeatHandler.startRepeat(BUTTONS.DPAD_RIGHT, () =>
+          dpadCallback("right")
+        );
       }
     } else {
       repeatHandler.clearRepeat(BUTTONS.DPAD_RIGHT);
@@ -158,7 +180,10 @@ class GamepadActionDispatcher {
    * @private
    */
   isJustPressed(currentButtons, previousButtons, button) {
-    return this.isPressed(currentButtons, button) && !this.isPressed(previousButtons, button);
+    return (
+      this.isPressed(currentButtons, button) &&
+      !this.isPressed(previousButtons, button)
+    );
   }
 
   /**
