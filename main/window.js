@@ -1,6 +1,6 @@
-const { BrowserWindow, app, webContents } = require("electron");
-const path = require("path");
-const fs = require("fs");
+const { BrowserWindow, app, webContents } = require('electron');
+const path = require('path');
+const fs = require('fs');
 
 let mainWindow;
 
@@ -31,7 +31,7 @@ function saveWindowBounds() {
 
 function createWindow() {
   const bounds = loadWindowBounds();
-  
+
   mainWindow = new BrowserWindow({
     ...bounds,
     transparent: true,
@@ -40,23 +40,23 @@ function createWindow() {
     hasShadow: false,
     skipTaskbar: false,
     webPreferences: {
-      preload: path.join(__dirname, "../preload.js"),
+      preload: path.join(__dirname, '../preload.js'),
       contextIsolation: true,
       nodeIntegration: false,
-      webviewTag: true
-    }
+      webviewTag: true,
+    },
   });
 
   // Use 'screen-saver' level to appear above fullscreen games
   mainWindow.setAlwaysOnTop(true, 'screen-saver');
 
-  mainWindow.loadFile("renderer/index.html");
+  mainWindow.loadFile('renderer/index.html');
 
   // Handle webview webContents - increase max listeners to prevent warnings
   // Webviews add internal listeners during navigation which can trigger warnings
   mainWindow.webContents.on('did-attach-webview', (event, webviewContents) => {
     webviewContents.setMaxListeners(0);
-    
+
     // Suppress ERR_ABORTED errors that occur during rapid navigation
     // These are normal when user navigates before previous page finishes loading
     webviewContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL) => {

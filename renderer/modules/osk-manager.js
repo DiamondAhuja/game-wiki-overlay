@@ -1,8 +1,8 @@
 /**
  * On-Screen Keyboard (OSK) Manager Module
- * 
+ *
  * Handles the virtual on-screen keyboard for gamepad text input.
- * 
+ *
  * Single Responsibility: Keyboard display, navigation, and input handling
  */
 
@@ -13,14 +13,14 @@
   const LAYOUTS = {
     letters: [
       'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',
-      'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', "'",
-      'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '-'
+      'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', '\'',
+      'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '-',
     ],
     numbers: [
       '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
       '!', '@', '#', '$', '%', '^', '&', '*', '(', ')',
-      '+', '=', '[', ']', '{', '}', ':', ';', '"', '?'
-    ]
+      '+', '=', '[', ']', '{', '}', ':', ';', '"', '?',
+    ],
   };
 
   const COLS = 10;
@@ -116,18 +116,18 @@
       let row = Math.floor(this.selectedIndex / COLS);
 
       switch (direction) {
-        case 'up':
-          row = (row - 1 + rows) % rows;
-          break;
-        case 'down':
-          row = (row + 1) % rows;
-          break;
-        case 'left':
-          col = (col - 1 + COLS) % COLS;
-          break;
-        case 'right':
-          col = (col + 1) % COLS;
-          break;
+      case 'up':
+        row = (row - 1 + rows) % rows;
+        break;
+      case 'down':
+        row = (row + 1) % rows;
+        break;
+      case 'left':
+        col = (col - 1 + COLS) % COLS;
+        break;
+      case 'right':
+        col = (col + 1) % COLS;
+        break;
       }
 
       let newIndex = row * COLS + col;

@@ -47,5 +47,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
   setOpacity: (opacity) => {
     ipcRenderer.send('set-opacity', opacity);
-  }
+  },
 });

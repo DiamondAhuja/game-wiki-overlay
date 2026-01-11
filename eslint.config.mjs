@@ -28,9 +28,9 @@ export default defineConfig([
       semi: ['error', 'always'],
       quotes: ['error', 'single'],
       indent: ['error', 2],
-      "comma-style": ['error', 'last'],
-      "comma-dangle": ['error', 'always-multiline'],
-      "no-trailing-spaces": 'error',
+      'comma-style': ['error', 'last'],
+      'comma-dangle': ['error', 'always-multiline'],
+      'no-trailing-spaces': 'error',
     },
   },
 

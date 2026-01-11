@@ -1,9 +1,9 @@
 /**
  * Webview Bridge Module
- * 
+ *
  * Handles communication with webview content, including
  * element highlighting and click dispatching.
- * 
+ *
  * Single Responsibility: Webview script injection and interaction
  */
 
@@ -48,7 +48,7 @@
      */
     clearHighlights() {
       if (!this.isActive()) return;
-      
+
       this.wiki.executeJavaScript(`
         (function() {
           const highlighted = document.querySelector('.gamepad-selected');
@@ -80,7 +80,7 @@
      */
     scroll(deltaX, deltaY) {
       if (!this.isActive()) return;
-      
+
       this.wiki.executeJavaScript(`window.scrollBy(${deltaX}, ${deltaY})`).catch(() => {});
     }
   }

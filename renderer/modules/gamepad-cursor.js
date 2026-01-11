@@ -1,11 +1,11 @@
 /**
  * Gamepad Cursor Module
- * 
+ *
  * Handles the virtual gamepad cursor with magnetic snapping,
  * element highlighting, and click dispatching.
- * 
+ *
  * Single Responsibility: Cursor movement and visual state
- * 
+ *
  * Dependencies:
  * - CURSOR_CONFIG (cursor-config.js)
  * - ElementDetector (element-detector.js)
