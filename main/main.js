@@ -8,9 +8,9 @@ app.whenReady().then(() => {
   setupSecurity();
   createWindow();
   setupShortcuts();
-  
+
   const win = getMainWindow();
-  
+
   // Start gamepad polling (Windows only)
   if (process.platform === 'win32') {
     try {
@@ -19,7 +19,7 @@ app.whenReady().then(() => {
       console.log('Gamepad support not available:', err.message);
     }
   }
-  
+
   // Switch to background mode when overlay loses focus
   // Background mode only listens for visibility toggle combo (Back+Start)
   // Full mode processes all navigation inputs
@@ -27,15 +27,15 @@ app.whenReady().then(() => {
     win.on('hide', () => {
       setBackgroundMode(true);
     });
-    
+
     win.on('show', () => {
       setBackgroundMode(false);
     });
-    
+
     win.on('blur', () => {
       setBackgroundMode(true);
     });
-    
+
     win.on('focus', () => {
       setBackgroundMode(false);
     });
@@ -54,27 +54,27 @@ let resizeDirection = null;
 ipcMain.on('start-resize', (event, direction) => {
   const win = getMainWindow();
   if (!win) return;
-  
+
   resizeDirection = direction;
-  
+
   // Clear any existing interval
   if (resizeInterval) {
     clearInterval(resizeInterval);
   }
-  
+
   resizeInterval = setInterval(() => {
     if (!resizeDirection) {
       clearInterval(resizeInterval);
       return;
     }
-    
+
     const cursorPos = screen.getCursorScreenPoint();
     const bounds = win.getBounds();
     const minWidth = 400;
     const minHeight = 300;
-    
+
     let newBounds = { ...bounds };
-    
+
     if (resizeDirection.includes('e')) {
       newBounds.width = Math.max(minWidth, cursorPos.x - bounds.x);
     }
@@ -91,7 +91,7 @@ ipcMain.on('start-resize', (event, direction) => {
       newBounds.y = bounds.y + bounds.height - newHeight;
       newBounds.height = newHeight;
     }
-    
+
     win.setBounds(newBounds);
   }, 16); // ~60fps
 });

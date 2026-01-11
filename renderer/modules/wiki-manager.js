@@ -1,11 +1,11 @@
 /**
  * Wiki Manager Module
- * 
+ *
  * Handles wiki selection, rendering wiki cards, custom URL navigation,
  * and managing the wiki webview state.
- * 
+ *
  * Single Responsibility: All wiki-related state and operations
- * 
+ *
  * @requires WIKIS - Global array from wikis-config.js
  */
 
@@ -38,7 +38,7 @@
       // Current wiki configuration
       this.config = {
         baseUrl: '',
-        searchUrl: ''
+        searchUrl: '',
       };
 
       // Callback for when wiki state changes
@@ -53,7 +53,7 @@
      */
     _bindEvents() {
       this.goBtn.addEventListener('click', () => this.goToCustomUrl());
-      
+
       this.wikiUrlInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
           this.goToCustomUrl();
@@ -61,7 +61,7 @@
       });
 
       this.searchBtn.addEventListener('click', () => this.performSearch());
-      
+
       this.searchInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
           this.performSearch();

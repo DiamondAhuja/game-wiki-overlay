@@ -1,9 +1,9 @@
 /**
  * Navigation Manager Module
- * 
+ *
  * Handles browser-like navigation history tracking, back/forward navigation,
  * and navigation state management.
- * 
+ *
  * Single Responsibility: Navigation history and state only
  */
 
@@ -115,7 +115,7 @@
      */
     _handleFailLoad(e) {
       this._setNavigating(false);
-      
+
       // Ignore aborted loads (normal when navigating away quickly)
       if (e.errorCode === -3 || e.validatedURL === 'about:blank') {
         return;
@@ -198,7 +198,7 @@
       this.currentIndex = -1;
       this.isNavigating = false;
       this.highlightStyleInjected = false;
-      
+
       if (this.navigationTimeout) {
         clearTimeout(this.navigationTimeout);
         this.navigationTimeout = null;

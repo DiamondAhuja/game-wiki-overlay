@@ -1,9 +1,9 @@
 /**
  * UI Controls Module
- * 
+ *
  * Handles window controls: resize handles, opacity slider, close button,
  * and status display.
- * 
+ *
  * Single Responsibility: UI control interactions only
  */
 
@@ -35,15 +35,15 @@
      */
     _initResizeHandles() {
       const resizeHandles = document.querySelectorAll('.resize-handle');
-      
+
       resizeHandles.forEach(handle => {
         handle.addEventListener('mousedown', (e) => {
           e.preventDefault();
-          
+
           // Extract direction from class name (resize-n, resize-se, etc.)
           const classes = handle.className.split(' ');
           const dirClass = classes.find(c => c.startsWith('resize-') && c !== 'resize-handle');
-          
+
           if (dirClass && window.electronAPI) {
             const direction = dirClass.replace('resize-', '');
             window.electronAPI.startResize(direction);
@@ -130,7 +130,7 @@
      */
     showStatus(message, duration = 0) {
       this.status.textContent = message;
-      
+
       if (duration > 0) {
         setTimeout(() => {
           if (this.status.textContent === message) {

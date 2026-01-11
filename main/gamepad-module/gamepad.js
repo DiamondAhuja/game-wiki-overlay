@@ -1,9 +1,9 @@
 /**
  * Gamepad Module
- * 
+ *
  * Orchestrates gamepad input handling using modular components.
  * Single Responsibility: coordinates between input, actions, and main process.
- * 
+ *
  * Component Architecture:
  * - GamepadInput: Low-level XInput polling
  * - GamepadActionDispatcher: Routes buttons to handlers
@@ -99,7 +99,7 @@ const windowActionHandler = {
         win.setAlwaysOnTop(true, 'screen-saver');
       }
     }
-  }
+  },
 };
 
 /**
@@ -114,7 +114,7 @@ const navigationActionHandler = {
   handleOpenKeyboard: () => sendGamepadAction('search'),
   handlePageUp: () => sendGamepadAction('page-up'),
   handlePageDown: () => sendGamepadAction('page-down'),
-  handleSubmitSearch: () => sendGamepadAction('start')
+  handleSubmitSearch: () => sendGamepadAction('start'),
 };
 
 /**
@@ -163,7 +163,7 @@ function pollGamepad() {
       const scrollSpeed = 15; // Pixels per poll at full deflection
       const scrollX = (rightStickX / maxPostDeadzone) * scrollSpeed;
       const scrollY = (rightStickY / maxPostDeadzone) * scrollSpeed;
-      
+
       // Only send if there's meaningful movement
       if (Math.abs(scrollX) > 0.5 || Math.abs(scrollY) > 0.5) {
         win.webContents.send('gamepad-scroll', { scrollX, scrollY });
@@ -181,7 +181,7 @@ function startPolling() {
   if (pollInterval) {
     return true;
   }
-  
+
   // Initialize components if needed
   if (!gamepadInput) {
     gamepadInput = new GamepadInput();
@@ -190,11 +190,11 @@ function startPolling() {
       return false;
     }
   }
-  
+
   if (!repeatHandler) {
     repeatHandler = new ButtonRepeatHandler();
   }
-  
+
   if (!gamepadDispatcher) {
     gamepadDispatcher = new GamepadActionDispatcher(windowActionHandler, navigationActionHandler);
   }
@@ -233,7 +233,7 @@ function stopPolling() {
  */
 function setBackgroundMode(enabled) {
   backgroundMode = enabled;
-  
+
   // Clear repeat handlers when entering background mode
   if (enabled && repeatHandler) {
     repeatHandler.clearAll();

@@ -1,9 +1,9 @@
 /**
  * Element Detector Module
- * 
+ *
  * Handles detection and tracking of clickable elements in both
  * local DOM and webview content.
- * 
+ *
  * Single Responsibility: Finding and tracking interactive elements
  */
 
@@ -34,10 +34,10 @@
     constructor(wiki, landingPage) {
       this.wiki = wiki;
       this.landingPage = landingPage;
-      
+
       /** @type {ClickableElement[]} */
       this.allClickableElements = [];
-      
+
       this.highlightStyleInjected = false;
     }
 
@@ -71,7 +71,7 @@
             right: rect.right,
             top: rect.top,
             bottom: rect.bottom,
-            isWebviewElement: false
+            isWebviewElement: false,
           });
         }
       });
@@ -90,7 +90,7 @@
               right: rect.right,
               top: rect.top,
               bottom: rect.bottom,
-              isWebviewElement: false
+              isWebviewElement: false,
             });
           }
         });
@@ -163,11 +163,11 @@
             top: webviewRect.top + r.top,
             bottom: webviewRect.top + r.bottom,
             isWebviewElement: true,
-            webviewIndex: r.index
+            webviewIndex: r.index,
           }));
 
           this.allClickableElements = localElements.concat(webviewElements);
-          
+
           if (onComplete) onComplete();
         }).catch(() => {
           this.allClickableElements = localElements.concat(existingWebviewElements);

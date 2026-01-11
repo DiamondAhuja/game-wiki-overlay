@@ -1,6 +1,6 @@
 /**
  * Gamepad Input Handler
- * 
+ *
  * Low-level XInput polling and state tracking.
  * Single Responsibility: reads raw gamepad input only.
  */
@@ -36,12 +36,12 @@ class GamepadInput {
         sThumbLX: 'int16',
         sThumbLY: 'int16',
         sThumbRX: 'int16',
-        sThumbRY: 'int16'
+        sThumbRY: 'int16',
       });
 
       const XINPUT_STATE = koffi.struct('XINPUT_STATE', {
         dwPacketNumber: 'uint32',
-        Gamepad: XINPUT_GAMEPAD
+        Gamepad: XINPUT_GAMEPAD,
       });
 
       this.XInputGetState = this.xinput.func('uint32 XInputGetState(uint32 dwUserIndex, _Out_ XINPUT_STATE *pState)');
@@ -102,8 +102,8 @@ class GamepadInput {
         sThumbLX: 0,
         sThumbLY: 0,
         sThumbRX: 0,
-        sThumbRY: 0
-      }
+        sThumbRY: 0,
+      },
     };
 
     const result = this.XInputGetState(0, state);
@@ -124,7 +124,7 @@ class GamepadInput {
       leftStickX: this.applyDeadzone(state.Gamepad.sThumbLX),
       leftStickY: this.applyDeadzone(state.Gamepad.sThumbLY),
       rightStickX: this.applyDeadzone(state.Gamepad.sThumbRX),
-      rightStickY: this.applyDeadzone(state.Gamepad.sThumbRY)
+      rightStickY: this.applyDeadzone(state.Gamepad.sThumbRY),
     };
   }
 

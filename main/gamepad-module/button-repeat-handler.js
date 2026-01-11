@@ -1,6 +1,6 @@
 /**
  * Button Repeat Handler
- * 
+ *
  * Manages D-pad button repeat logic.
  * Single Responsibility: handles timing and state for button repeats only.
  */
@@ -29,7 +29,7 @@ class ButtonRepeatHandler {
       this.repeatTimers[button + '_interval'] = setInterval(() => {
         callback();
       }, DPAD_REPEAT.RATE);
-      
+
       // Call once after initial delay
       callback();
     }, DPAD_REPEAT.DELAY);

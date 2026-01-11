@@ -1,6 +1,6 @@
 /**
  * Gamepad Action Dispatcher
- * 
+ *
  * Routes button presses to appropriate action handlers.
  * Decouples button detection from action execution.
  * Strategy Pattern: different handlers for different button types.
@@ -83,7 +83,7 @@ class GamepadActionDispatcher {
     }
 
     const { leftStickX, leftStickY, rightStickX, rightStickY } = state;
-    
+
     // Process left stick movement (cursor)
     if (Math.abs(leftStickX) > 100 || Math.abs(leftStickY) > 100) {
       analogCallback(leftStickX, -leftStickY); // Negate Y for correct direction

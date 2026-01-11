@@ -1,9 +1,9 @@
 /**
  * Cursor Configuration Module
- * 
+ *
  * Centralized configuration for the gamepad cursor system.
  * Imported from main process config when available, with fallbacks.
- * 
+ *
  * Single Responsibility: Cursor-related constants only
  */
 
@@ -32,23 +32,23 @@
     // Movement multipliers for D-pad navigation
     DPAD_MOVE_MULTIPLIER: 4,
     DPAD_FAST_MULTIPLIER: 6,
-    
+
     // Scroll amounts in pixels
     SCROLL_ANALOG_STEP: 30,
     SCROLL_PAGE_AMOUNT: 300,
-    
+
     // Timing constants
     REFRESH_DELAY_MS: 500,
     NAV_COMPLETE_DELAY_MS: 300,
     CLICK_FEEDBACK_MS: 150,
-    
+
     // Cursor behavior
     CURSOR_SPEED: 8,
     SCROLL_SPEED: 1,
     CURSOR_HIDE_DELAY: 5000,
     SNAP_RADIUS: 100,
     SNAP_STRENGTH: 0.3,
-    ELEMENT_REFRESH_RATE: 300
+    ELEMENT_REFRESH_RATE: 300,
   };
 
   // Expose to global scope
