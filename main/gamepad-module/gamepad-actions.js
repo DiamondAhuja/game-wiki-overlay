@@ -111,6 +111,7 @@ class GamepadActionDispatcher {
     // D-pad up
     if (this.isPressed(buttons, BUTTONS.DPAD_UP)) {
       if (this.isJustPressed(buttons, previousButtons, BUTTONS.DPAD_UP)) {
+        dpadCallback('up');
         repeatHandler.startRepeat(BUTTONS.DPAD_UP, () => dpadCallback('up'));
       }
     } else {
@@ -120,6 +121,7 @@ class GamepadActionDispatcher {
     // D-pad down
     if (this.isPressed(buttons, BUTTONS.DPAD_DOWN)) {
       if (this.isJustPressed(buttons, previousButtons, BUTTONS.DPAD_DOWN)) {
+        dpadCallback('down');
         repeatHandler.startRepeat(BUTTONS.DPAD_DOWN, () => dpadCallback('down'));
       }
     } else {
@@ -129,6 +131,7 @@ class GamepadActionDispatcher {
     // D-pad left
     if (this.isPressed(buttons, BUTTONS.DPAD_LEFT)) {
       if (this.isJustPressed(buttons, previousButtons, BUTTONS.DPAD_LEFT)) {
+        dpadCallback('left');
         repeatHandler.startRepeat(BUTTONS.DPAD_LEFT, () => dpadCallback('left'));
       }
     } else {
@@ -138,6 +141,7 @@ class GamepadActionDispatcher {
     // D-pad right
     if (this.isPressed(buttons, BUTTONS.DPAD_RIGHT)) {
       if (this.isJustPressed(buttons, previousButtons, BUTTONS.DPAD_RIGHT)) {
+        dpadCallback('right');
         repeatHandler.startRepeat(BUTTONS.DPAD_RIGHT, () => dpadCallback('right'));
       }
     } else {
